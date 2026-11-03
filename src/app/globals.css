@@ -7,8 +7,8 @@
   --border: #2b2a27;
   --foreground: #ece8e1;
   --muted: #8c887e;
-  /* One signal colour, used sparingly: focus, the active step, progress. */
-  --accent: #ff5a1f;
+  /* No brand hue in the studio itself: selection and focus use the text colour. */
+  --accent: #ece8e1;
 }
 
 @theme inline {

@@ -12,12 +12,6 @@ export function SlateFace({ view }: { view: CardView }) {
       className="relative flex size-full flex-col p-[8cqw]"
       style={{ backgroundColor: colors.background, color: colors.text }}
     >
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-[1.6cqw]"
-        style={{ backgroundColor: colors.primary }}
-      />
-
       <header className="flex items-center justify-between gap-[3cqw]">
         <BrandMark view={view} className="min-w-0" />
         {view.label && (

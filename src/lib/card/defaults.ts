@@ -4,8 +4,8 @@ export const DEFAULT_CARD_CONFIG = {
   brand: {
     name: "Card Generator",
     colors: {
-      primary: "#ff5a1f",
-      secondary: "#e4ddcf",
+      primary: "#e8e3d9",
+      secondary: "#8a857a",
       background: "#141414",
       text: "#f1ede6",
     },

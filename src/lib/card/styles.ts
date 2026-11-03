@@ -6,7 +6,7 @@ export const CARD_STYLE_META: Record<
 > = {
   slate: {
     label: "Slate",
-    description: "Quiet and minimal, with a rule of brand colour.",
+    description: "Quiet and minimal. Name, photo, and ID.",
   },
   poster: {
     label: "Poster",
