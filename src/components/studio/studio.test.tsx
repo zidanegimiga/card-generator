@@ -57,4 +57,31 @@ describe("Studio", () => {
       "step",
     );
   });
+
+  it("updates the card preview from the member form", async () => {
+    const { user, rail } = setup();
+
+    await user.click(within(rail).getByRole("button", { name: "Member" }));
+    const name = screen.getByLabelText("Full name");
+    await user.clear(name);
+    await user.type(name, "Grace Hopper");
+
+    const card = screen.getByRole("article", { name: /ID card for/ });
+    expect(card).toHaveAccessibleName(
+      "Card Generator ID card for Grace Hopper",
+    );
+    expect(within(card).getByText("Grace Hopper")).toBeInTheDocument();
+  });
+
+  it("keeps member edits when leaving and returning to the step", async () => {
+    const { user, rail } = setup();
+
+    await user.click(within(rail).getByRole("button", { name: "Member" }));
+    await user.clear(screen.getByLabelText("Job title"));
+    await user.type(screen.getByLabelText("Job title"), "Admiral");
+    await user.click(within(rail).getByRole("button", { name: "Brand" }));
+    await user.click(within(rail).getByRole("button", { name: "Member" }));
+
+    expect(screen.getByLabelText("Job title")).toHaveValue("Admiral");
+  });
 });

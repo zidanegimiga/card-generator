@@ -1,3 +1,4 @@
+import { resolveMemberId } from "@/lib/card/member-id";
 import type { CardConfig } from "@/lib/card/schema";
 
 type IdCardProps = {
@@ -25,6 +26,11 @@ export function IdCard({ config }: IdCardProps) {
           style={{ backgroundColor: brand.colors.primary }}
         />
         <span className="font-medium">{brand.name}</span>
+        {member.label && (
+          <span className="ml-auto text-[10px] tracking-widest uppercase opacity-60">
+            {member.label}
+          </span>
+        )}
       </header>
 
       <div>
@@ -34,7 +40,7 @@ export function IdCard({ config }: IdCardProps) {
         <p className="mt-1 text-2xl font-semibold">{member.fullName}</p>
         <p className="text-xs opacity-70">{member.title}</p>
         <div className="mt-4 flex justify-between font-mono text-[10px] opacity-60">
-          <span>{member.memberId ?? "•••• •••• •••"}</span>
+          <span>{resolveMemberId(brand.name, member)}</span>
           <span>{member.memberSince}</span>
         </div>
       </div>
