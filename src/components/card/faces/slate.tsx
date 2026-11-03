@@ -1,6 +1,7 @@
 import type { CardView } from "@/lib/card/card-view";
 import { withAlpha } from "@/lib/color/alpha";
 
+import { QrCode } from "../qr-code";
 import { BrandMark, Portrait } from "../parts";
 
 export function SlateFace({ view }: { view: CardView }) {
@@ -26,14 +27,23 @@ export function SlateFace({ view }: { view: CardView }) {
         )}
       </header>
 
-      <Portrait
-        view={view}
-        className="mt-auto size-[24cqw] rounded-[4cqw] text-[24cqw]"
-        style={{
-          backgroundColor: colors.primary,
-          color: colors.background,
-        }}
-      />
+      <div className="mt-auto flex items-end justify-between">
+        <Portrait
+          view={view}
+          className="size-[24cqw] rounded-[4cqw] text-[24cqw]"
+          style={{
+            backgroundColor: colors.primary,
+            color: colors.background,
+          }}
+        />
+        {view.qrValue && (
+          <QrCode
+            value={view.qrValue}
+            tones={[colors.text, colors.background]}
+            className="size-[22cqw] rounded-[2cqw]"
+          />
+        )}
+      </div>
 
       <div className="mt-[6cqw]">
         {view.membership && (

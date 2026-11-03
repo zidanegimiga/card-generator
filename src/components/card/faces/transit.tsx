@@ -1,6 +1,7 @@
 import { barcodeBars, type CardView } from "@/lib/card/card-view";
 import { withAlpha } from "@/lib/color/alpha";
 
+import { QrCode } from "../qr-code";
 import { BrandMark, Field, Portrait } from "../parts";
 
 /** Where the tear line sits, as a share of the card's height. */
@@ -81,6 +82,13 @@ export function TransitFace({ view }: { view: CardView }) {
             {view.memberId}
           </p>
         </div>
+        {view.qrValue && (
+          <QrCode
+            value={view.qrValue}
+            tones={[colors.text, colors.background]}
+            className="size-[18cqw] rounded-[1.5cqw]"
+          />
+        )}
         <Portrait
           view={view}
           className="size-[18cqw] rounded-[2.5cqw] text-[18cqw]"

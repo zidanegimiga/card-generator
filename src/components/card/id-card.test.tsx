@@ -69,6 +69,24 @@ describe.each(CARD_STYLES)("%s card", (style) => {
     expect(logo).toHaveAttribute("alt", "");
   });
 
+  it("shows a QR code only when there's something to link to", () => {
+    const withSite = renderCard(
+      config({ style, brand: { domain: "linear.app" } }),
+    );
+    expect(
+      within(withSite).getByRole("img", {
+        name: "QR code linking to https://linear.app",
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it("leaves the QR code off without a link", () => {
+    const card = renderCard(config({ style }));
+    expect(
+      within(card).queryByRole("img", { name: /QR code/ }),
+    ).not.toBeInTheDocument();
+  });
+
   it("shows the card label when set", () => {
     const card = renderCard(config({ style, member: { label: "Staff" } }));
 

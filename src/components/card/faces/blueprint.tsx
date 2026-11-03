@@ -1,6 +1,7 @@
 import type { CardView } from "@/lib/card/card-view";
 import { withAlpha } from "@/lib/color/alpha";
 
+import { QrCode } from "../qr-code";
 import { BrandMark, Field, Portrait } from "../parts";
 
 /** An L-shaped registration mark for one corner. */
@@ -76,6 +77,13 @@ export function BlueprintFace({ view }: { view: CardView }) {
           <p>FIG. A</p>
           <p>{view.label || "Member"}</p>
         </figcaption>
+        {view.qrValue && (
+          <QrCode
+            value={view.qrValue}
+            tones={[colors.text, colors.background]}
+            className="ml-auto size-[24cqw]"
+          />
+        )}
       </figure>
 
       <p className="mt-[7cqw] font-sans text-[8cqw] leading-[1.05] font-semibold tracking-tight">

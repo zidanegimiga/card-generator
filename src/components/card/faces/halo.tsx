@@ -1,6 +1,7 @@
 import type { CardView } from "@/lib/card/card-view";
 import { withAlpha } from "@/lib/color/alpha";
 
+import { QrCode } from "../qr-code";
 import { BrandMark, Portrait } from "../parts";
 
 export function HaloFace({ view }: { view: CardView }) {
@@ -20,12 +21,19 @@ export function HaloFace({ view }: { view: CardView }) {
       }}
     >
       <div
-        className="flex flex-1 flex-col items-center rounded-[5cqw] border px-[6cqw] pt-[9cqw] pb-[6cqw] text-center backdrop-blur-md"
+        className="relative flex flex-1 flex-col items-center rounded-[5cqw] border px-[6cqw] pt-[9cqw] pb-[6cqw] text-center backdrop-blur-md"
         style={{
           backgroundColor: withAlpha(colors.background, 0.55),
           borderColor: withAlpha(colors.text, 0.14),
         }}
       >
+        {view.qrValue && (
+          <QrCode
+            value={view.qrValue}
+            tones={[colors.text, colors.background]}
+            className="absolute top-[4cqw] right-[4cqw] size-[13cqw] rounded-[1.5cqw]"
+          />
+        )}
         {view.label && (
           <span className="mb-[4cqw] text-[2.8cqw] tracking-[0.22em] uppercase opacity-70">
             {view.label}
