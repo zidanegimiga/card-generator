@@ -96,4 +96,30 @@ describe("Studio", () => {
       screen.getByRole("article", { name: "Linear ID card for Ada Lovelace" }),
     ).toBeInTheDocument();
   });
+
+  it("restyles the card from the style step", async () => {
+    const { user, rail } = setup();
+
+    await user.click(within(rail).getByRole("button", { name: "Style" }));
+    await user.click(screen.getByRole("radio", { name: "Halo" }));
+
+    expect(
+      screen.getByRole("article", { name: /ID card for Ada Lovelace/ }),
+    ).toHaveAttribute("data-style", "halo");
+  });
+
+  it("puts the member photo on the card", async () => {
+    const { user, rail } = setup();
+
+    await user.click(within(rail).getByRole("button", { name: "Member" }));
+    await user.upload(
+      screen.getByLabelText("Upload photo"),
+      new File(["png"], "me.png", { type: "image/png" }),
+    );
+
+    const card = screen.getByRole("article", { name: /ID card for/ });
+    expect(
+      await within(card).findByRole("img", { name: "Photo of Ada Lovelace" }),
+    ).toBeInTheDocument();
+  });
 });

@@ -13,6 +13,7 @@ import { BrandForm } from "./brand-form";
 import { FontPicker } from "./font-picker";
 import { MemberForm } from "./member-form";
 import { StepPanel } from "./step-panel";
+import { StylePicker } from "./style-picker";
 import { StepperRail } from "./stepper-rail";
 import { INITIAL_STEPPER_STATE, STUDIO_STEPS, stepperReducer } from "./steps";
 
@@ -30,6 +31,15 @@ export function Studio() {
             brand={config.brand}
             onChange={(brand) =>
               setConfig((current) => ({ ...current, brand }))
+            }
+          />
+        );
+      case "style":
+        return (
+          <StylePicker
+            config={config}
+            onChange={(style) =>
+              setConfig((current) => ({ ...current, style }))
             }
           />
         );
