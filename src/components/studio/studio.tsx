@@ -9,6 +9,7 @@ import { DEFAULT_CARD_CONFIG } from "@/lib/card/defaults";
 import type { CardConfig } from "@/lib/card/schema";
 import { googleFontsHref } from "@/lib/fonts/catalog";
 
+import { BrandForm } from "./brand-form";
 import { FontPicker } from "./font-picker";
 import { MemberForm } from "./member-form";
 import { StepPanel } from "./step-panel";
@@ -23,6 +24,15 @@ export function Studio() {
 
   function renderStep() {
     switch (step.id) {
+      case "brand":
+        return (
+          <BrandForm
+            brand={config.brand}
+            onChange={(brand) =>
+              setConfig((current) => ({ ...current, brand }))
+            }
+          />
+        );
       case "font":
         return (
           <FontPicker

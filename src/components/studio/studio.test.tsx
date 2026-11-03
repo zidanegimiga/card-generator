@@ -84,4 +84,16 @@ describe("Studio", () => {
 
     expect(screen.getByLabelText("Job title")).toHaveValue("Admiral");
   });
+
+  it("updates the card preview from the brand form", async () => {
+    const { user } = setup();
+
+    const name = screen.getByLabelText("Brand name");
+    await user.clear(name);
+    await user.type(name, "Linear");
+
+    expect(
+      screen.getByRole("article", { name: "Linear ID card for Ada Lovelace" }),
+    ).toBeInTheDocument();
+  });
 });

@@ -21,11 +21,20 @@ export function IdCard({ config }: IdCardProps) {
       }}
     >
       <header className="flex items-center gap-2">
-        <span
-          aria-hidden
-          className="size-6 rounded-md"
-          style={{ backgroundColor: brand.colors.primary }}
-        />
+        {brand.logoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element -- data URLs can't use next/image
+          <img
+            src={brand.logoUrl}
+            alt=""
+            className="size-6 rounded-md object-contain"
+          />
+        ) : (
+          <span
+            aria-hidden
+            className="size-6 rounded-md"
+            style={{ backgroundColor: brand.colors.primary }}
+          />
+        )}
         <span className="font-medium">{brand.name}</span>
         {member.label && (
           <span className="ml-auto text-[10px] tracking-widest uppercase opacity-60">
