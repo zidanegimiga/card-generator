@@ -15,6 +15,8 @@ export type CardView = {
   memberId: string;
   initials: string;
   photoUrl?: string;
+  /** What the QR code encodes: the member's link, else the brand's site. */
+  qrValue?: string;
 };
 
 /** "Ada Lovelace" -> "AL", "Cher" -> "C". Handles accents and emoji safely. */
@@ -43,6 +45,8 @@ export function toCardView({ brand, member }: CardConfig): CardView {
     memberId: resolveMemberId(brand.name, member),
     initials: initials(member.fullName),
     photoUrl: member.photoUrl,
+    qrValue:
+      member.qrUrl ?? (brand.domain ? `https://${brand.domain}` : undefined),
   };
 }
 

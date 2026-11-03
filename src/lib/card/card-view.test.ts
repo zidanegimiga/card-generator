@@ -44,6 +44,27 @@ describe("toCardView", () => {
   });
 });
 
+describe("qrValue", () => {
+  const withBrand = (domain?: string, qrUrl?: string) =>
+    toCardView({
+      ...DEFAULT_CARD_CONFIG,
+      brand: { ...DEFAULT_CARD_CONFIG.brand, domain },
+      member: { ...DEFAULT_CARD_CONFIG.member, qrUrl },
+    }).qrValue;
+
+  it("prefers the member's QR link", () => {
+    expect(withBrand("linear.app", "https://ada.dev")).toBe("https://ada.dev");
+  });
+
+  it("falls back to the brand's site", () => {
+    expect(withBrand("linear.app")).toBe("https://linear.app");
+  });
+
+  it("is unset when there's neither", () => {
+    expect(withBrand()).toBeUndefined();
+  });
+});
+
 describe("barcodeBars", () => {
   it("makes one bar per digit and ignores spaces", () => {
     expect(barcodeBars("1234 5678 901")).toHaveLength(11);
