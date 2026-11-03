@@ -1,4 +1,5 @@
 import { resolveMemberId } from "@/lib/card/member-id";
+import { cssFontFamily } from "@/lib/fonts/catalog";
 import type { CardConfig } from "@/lib/card/schema";
 
 type IdCardProps = {
@@ -16,7 +17,7 @@ export function IdCard({ config }: IdCardProps) {
       style={{
         backgroundColor: brand.colors.background,
         color: brand.colors.text,
-        fontFamily: `"${font.family}", var(--font-sans)`,
+        fontFamily: cssFontFamily(font),
       }}
     >
       <header className="flex items-center gap-2">
