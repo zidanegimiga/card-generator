@@ -1,0 +1,151 @@
+.face {
+  --weave: 6cqw;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 8cqw;
+  /* A 2x2 twill: diagonal fibre bundles alternating light and dark. */
+  background-color: #161616;
+  background-image:
+    linear-gradient(
+      27deg,
+      #131313 calc(var(--weave) / 4),
+      transparent calc(var(--weave) / 4)
+    ),
+    linear-gradient(
+      207deg,
+      #131313 calc(var(--weave) / 4),
+      transparent calc(var(--weave) / 4)
+    ),
+    linear-gradient(
+      27deg,
+      #222222 calc(var(--weave) / 4),
+      transparent calc(var(--weave) / 4)
+    ),
+    linear-gradient(
+      207deg,
+      #222222 calc(var(--weave) / 4),
+      transparent calc(var(--weave) / 4)
+    ),
+    linear-gradient(
+      90deg,
+      #1b1b1b calc(var(--weave) / 2),
+      transparent calc(var(--weave) / 2)
+    ),
+    linear-gradient(
+      #1d1d1d 25%,
+      #1a1a1a 25%,
+      #1a1a1a 50%,
+      transparent 50%,
+      transparent 75%,
+      #262626 75%,
+      #262626
+    );
+  background-position:
+    0 0,
+    calc(var(--weave) / 2) 0,
+    0 calc(var(--weave) / 20),
+    calc(var(--weave) / 2) calc(var(--weave) / 20),
+    0 0,
+    0 0;
+  background-size: var(--weave) var(--weave);
+  color: #ececec;
+}
+
+/* The resin catches the brand colour along one edge. */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    150deg,
+    color-mix(in srgb, var(--card-primary) 35%, transparent) 0%,
+    transparent 45%
+  );
+  pointer-events: none;
+}
+
+.header,
+.hero,
+.specs,
+.qr {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3cqw;
+}
+
+.label {
+  flex-shrink: 0;
+  padding: 0.6cqw 2cqw;
+  border: 1px solid color-mix(in srgb, var(--card-primary) 70%, #ffffff);
+  font-family: var(--font-mono);
+  font-size: 2.6cqw;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 4cqw;
+  margin-top: 10cqw;
+}
+
+.portrait {
+  width: 22cqw;
+  height: 22cqw;
+  font-size: 22cqw;
+  background: var(--card-primary);
+  color: #0e0e0e;
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 78% 100%, 0 100%);
+}
+
+.name {
+  font-size: 7.5cqw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.specs {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 3cqw;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 4cqw;
+  padding: 1.8cqw 0;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+}
+
+.row dt {
+  color: color-mix(in srgb, var(--card-primary) 60%, #ffffff);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.row dd {
+  overflow: hidden;
+  margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qr {
+  position: absolute;
+  top: 26cqw;
+  right: 8cqw;
+  width: 16cqw;
+  height: 16cqw;
+}

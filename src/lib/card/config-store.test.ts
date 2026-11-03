@@ -54,6 +54,17 @@ describe("createConfigStore", () => {
       expect(store.getSnapshot()).toBe(DEFAULT_CARD_CONFIG);
     });
 
+    it("loads a card saved before finishes existed", () => {
+      const older: Partial<CardConfig> = { ...renamed };
+      delete older.finish;
+      const store = createConfigStore({ storage: memoryStorage(saved(older)) });
+
+      expect(store.getSnapshot()).toMatchObject({
+        finish: "brand",
+        brand: { name: "Linear" },
+      });
+    });
+
     it("survives storage that throws on read", () => {
       const storage = memoryStorage();
       storage.getItem.mockImplementation(() => {

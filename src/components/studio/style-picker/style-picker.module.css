@@ -1,0 +1,60 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 1rem;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  cursor: pointer;
+}
+
+.preview {
+  opacity: 0.45;
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.option:hover .preview {
+  opacity: 0.8;
+}
+
+.option:has(:checked) .preview {
+  opacity: 1;
+}
+
+.option:has(:focus-visible) .preview {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+
+.option:has(:checked) .label {
+  color: var(--foreground);
+}
+
+.marker {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  transition: background-color 0.2s;
+}
+
+.option:has(:checked) .marker {
+  background: var(--accent);
+}
+
+.description {
+  margin-top: -0.375rem;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  color: var(--muted);
+}

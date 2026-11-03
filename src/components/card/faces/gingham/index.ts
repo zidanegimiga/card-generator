@@ -1,0 +1,1 @@
+export { GinghamFace } from "./gingham";

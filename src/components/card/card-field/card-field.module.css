@@ -1,0 +1,19 @@
+.field {
+  min-width: 0;
+}
+
+.label {
+  font-size: 2.6cqw;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.value {
+  margin-top: 0.8cqw;
+  overflow: hidden;
+  font-size: 4cqw;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

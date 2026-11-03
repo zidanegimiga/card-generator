@@ -1,0 +1,128 @@
+.face {
+  --fine: color-mix(in srgb, var(--card-primary) 14%, transparent);
+  --bold: color-mix(in srgb, var(--card-primary) 30%, transparent);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 9cqw;
+  background-color: var(--card-bg);
+  background-image:
+    linear-gradient(var(--bold) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bold) 1px, transparent 1px),
+    linear-gradient(var(--fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fine) 1px, transparent 1px);
+  background-size:
+    25cqw 25cqw,
+    25cqw 25cqw,
+    5cqw 5cqw,
+    5cqw 5cqw;
+  color: var(--card-ink);
+  font-family: var(--font-mono);
+}
+
+.corner {
+  position: absolute;
+  width: 5cqw;
+  height: 5cqw;
+  border: 0 solid var(--card-primary);
+}
+
+.topLeft {
+  top: 4cqw;
+  left: 4cqw;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.topRight {
+  top: 4cqw;
+  right: 4cqw;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.bottomLeft {
+  bottom: 4cqw;
+  left: 4cqw;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+
+.bottomRight {
+  right: 4cqw;
+  bottom: 4cqw;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3cqw;
+  font-family: inherit;
+}
+
+.header > :first-child {
+  font-family: var(--card-font);
+}
+
+.rev {
+  flex-shrink: 0;
+  font-size: 2.8cqw;
+  color: var(--card-primary);
+}
+
+.figure {
+  display: flex;
+  align-items: flex-end;
+  gap: 4cqw;
+  margin-top: auto;
+}
+
+.portrait {
+  width: 30cqw;
+  height: 30cqw;
+  border: 0.5cqw dashed var(--card-primary);
+  font-family: var(--card-font);
+  font-size: 30cqw;
+  background: color-mix(in srgb, var(--card-primary) 12%, transparent);
+}
+
+.caption {
+  padding-bottom: 1cqw;
+  font-size: 2.6cqw;
+  line-height: 1.6;
+  color: var(--card-primary);
+}
+
+.qr {
+  width: 24cqw;
+  height: 24cqw;
+  margin-left: auto;
+}
+
+.name {
+  margin-top: 7cqw;
+  font-family: var(--card-font);
+  font-size: 8cqw;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4cqw;
+  margin-top: 8cqw;
+  padding-top: 4cqw;
+  border-top: 1px solid var(--bold);
+}
+
+.wide {
+  grid-column: span 2;
+}

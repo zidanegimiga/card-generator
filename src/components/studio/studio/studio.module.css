@@ -1,0 +1,57 @@
+.studio {
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100dvh;
+}
+
+.sidebar {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--surface);
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+}
+
+.canvas {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding: 2rem;
+  background: var(--background);
+}
+
+/* The tilt wrapper is a size container, so it needs an explicit width. */
+.preview {
+  width: 13rem;
+}
+
+@media (min-width: 768px) {
+  .studio {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    flex: none;
+    width: 360px;
+    border-right: 1px solid var(--border);
+  }
+
+  .preview {
+    width: 18rem;
+  }
+}

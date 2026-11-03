@@ -1,0 +1,16 @@
+/* A size container, so faces size everything in cqw and scale to any width. */
+.card {
+  container-type: inline-size;
+  flex-shrink: 0;
+  width: 100%;
+  aspect-ratio: 1080 / 1712;
+}
+
+.face {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3.2cqw;
+  box-shadow: 0 2cqw 6cqw -2cqw rgb(0 0 0 / 0.7);
+  line-height: 1.3;
+}

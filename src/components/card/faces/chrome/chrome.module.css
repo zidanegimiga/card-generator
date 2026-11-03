@@ -1,0 +1,129 @@
+.face {
+  --ink: color-mix(in srgb, var(--metal-dark) 70%, #050505);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 7cqw;
+  /* Sky above, a hard horizon, ground reflected below: what makes chrome read as chrome. */
+  background: linear-gradient(
+    180deg,
+    var(--metal-light) 0%,
+    #ffffff 10%,
+    var(--metal-mid) 30%,
+    var(--metal-dark) 47%,
+    var(--metal-light) 50%,
+    var(--metal-mid) 66%,
+    var(--metal-light) 82%,
+    var(--metal-dark) 100%
+  );
+  color: var(--ink);
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgb(255 255 255 / 0.45) 42%,
+    transparent 48%,
+    transparent 62%,
+    rgb(255 255 255 / 0.25) 68%,
+    transparent 74%
+  );
+  pointer-events: none;
+}
+
+.header,
+.monogram,
+.plate {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3cqw;
+}
+
+.label {
+  flex-shrink: 0;
+  font-size: 2.8cqw;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/*
+ * Stamped into the metal: highlight below, shadow above. Initials inherit the
+ * text-shadow; a photo sits in a recessed, ringed well instead.
+ */
+.monogram {
+  align-self: center;
+  width: 58cqw;
+  height: 58cqw;
+  margin: auto 0;
+  border-radius: var(--radius-full);
+  font-size: 116cqw;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  color: color-mix(in srgb, var(--metal-mid) 75%, #000000);
+  text-shadow:
+    0 0.6cqw 0 rgb(255 255 255 / 0.6),
+    0 -0.4cqw 0 rgb(0 0 0 / 0.35);
+}
+
+.monogram:has(img) {
+  box-shadow:
+    inset 0 1cqw 2cqw rgb(0 0 0 / 0.45),
+    0 0 0 1.2cqw var(--metal-light),
+    0 0 0 1.6cqw var(--metal-dark);
+}
+
+.plate {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4cqw;
+  margin: 0 -7cqw -7cqw;
+  padding: 6cqw 7cqw 7cqw;
+  background: color-mix(in srgb, var(--metal-dark) 85%, #000000);
+  color: var(--metal-light);
+}
+
+.who {
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  font-size: 6.5cqw;
+  font-weight: 600;
+  line-height: 1.1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  margin-top: 0.8cqw;
+  font-size: 3.6cqw;
+  opacity: 0.75;
+}
+
+.id {
+  display: flex;
+  gap: 3cqw;
+  margin-top: 2.5cqw;
+  font-family: var(--font-mono);
+  font-size: 3cqw;
+  opacity: 0.65;
+}
+
+.qr {
+  width: 17cqw;
+  height: 17cqw;
+  border-radius: 1.5cqw;
+}

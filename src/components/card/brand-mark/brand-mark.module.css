@@ -1,0 +1,30 @@
+.mark {
+  display: flex;
+  align-items: center;
+  gap: 2.5cqw;
+  min-width: 0;
+}
+
+.logo,
+.tile {
+  width: 7cqw;
+  height: 7cqw;
+  flex-shrink: 0;
+  border-radius: 1.5cqw;
+}
+
+.logo {
+  object-fit: contain;
+}
+
+.tile {
+  background: var(--card-primary);
+}
+
+.name {
+  overflow: hidden;
+  font-size: 4.6cqw;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,128 @@
+.face {
+  --paper: color-mix(in srgb, var(--metal-light) 70%, #ffffff);
+  --ink: color-mix(in srgb, var(--metal-dark) 55%, #141414);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 7cqw;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Interfering rings from two centres, like the fine line work on banknotes. */
+.guilloche {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-radial-gradient(
+      circle at 15% 115%,
+      transparent 0 1.3cqw,
+      color-mix(in srgb, var(--card-primary) 30%, transparent) 1.3cqw 1.45cqw
+    ),
+    repeating-radial-gradient(
+      circle at 110% 10%,
+      transparent 0 1.7cqw,
+      color-mix(in srgb, var(--card-secondary) 35%, transparent) 1.7cqw 1.82cqw
+    );
+  pointer-events: none;
+}
+
+/* The film: a rainbow that shifts across the card, kept faint so text stays readable. */
+.holo {
+  position: absolute;
+  inset: 0;
+  background:
+    conic-gradient(
+      from 210deg at 72% 28%,
+      #ff9fb2,
+      #ffd59e,
+      #c6f6a8,
+      #9fe8f0,
+      #a9b8ff,
+      #f1a8ff,
+      #ff9fb2
+    ),
+    linear-gradient(transparent, transparent);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+.header,
+.body,
+.numberRow,
+.mrz {
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3cqw;
+}
+
+.doc {
+  flex-shrink: 0;
+  font-size: 2.6cqw;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.body {
+  display: flex;
+  gap: 5cqw;
+  margin-top: 9cqw;
+}
+
+.portrait {
+  width: 32cqw;
+  height: 40cqw;
+  border-radius: 1.5cqw;
+  font-size: 32cqw;
+  background: color-mix(in srgb, var(--card-primary) 25%, var(--paper));
+  color: var(--ink);
+  filter: saturate(0.85);
+}
+
+.fields {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3cqw;
+  min-width: 0;
+}
+
+.numberRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4cqw;
+  margin-top: auto;
+}
+
+.qr {
+  width: 15cqw;
+  height: 15cqw;
+}
+
+.number {
+  font-family: var(--font-mono);
+  font-size: 4cqw;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.mrz {
+  margin: 4cqw -7cqw -7cqw;
+  padding: 3.5cqw 7cqw 5cqw;
+  background: color-mix(in srgb, #ffffff 70%, transparent);
+  font-family: var(--font-mono);
+  font-size: 3.55cqw;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}

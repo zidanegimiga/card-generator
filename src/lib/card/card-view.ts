@@ -1,12 +1,14 @@
+import { type Palette, resolvePalette } from "./finishes";
 import { resolveMemberId } from "./member-id";
-import type { BrandColors, CardConfig } from "./schema";
+import type { CardConfig } from "./schema";
 
 /** Everything a card face needs, already resolved. Faces stay purely presentational. */
 export type CardView = {
   brandName: string;
   domain?: string;
   logoUrl?: string;
-  colors: BrandColors;
+  /** Resolved from the brand or the chosen finish. Faces read it as CSS variables. */
+  colors: Palette;
   fullName: string;
   title: string;
   membership: string;
@@ -31,12 +33,12 @@ export function initials(name: string): string {
     .join("");
 }
 
-export function toCardView({ brand, member }: CardConfig): CardView {
+export function toCardView({ brand, member, finish }: CardConfig): CardView {
   return {
     brandName: brand.name,
     domain: brand.domain,
     logoUrl: brand.logoUrl,
-    colors: brand.colors,
+    colors: resolvePalette(brand.colors, finish),
     fullName: member.fullName,
     title: member.title,
     membership: member.membership,

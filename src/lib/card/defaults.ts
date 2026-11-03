@@ -11,6 +11,7 @@ export const DEFAULT_CARD_CONFIG = {
     },
   },
   style: "slate",
+  finish: "brand",
   font: { kind: "google", family: "Geist" },
   member: {
     fullName: "Ada Lovelace",

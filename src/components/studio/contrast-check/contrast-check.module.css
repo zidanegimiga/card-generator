@@ -1,0 +1,28 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+}
+
+.label {
+  color: var(--muted);
+}
+
+.value {
+  font-family: var(--font-mono);
+}
+
+.pass {
+  color: var(--success);
+}
+
+.warn {
+  color: var(--warning);
+}
+
+.fail {
+  color: var(--danger);
+}

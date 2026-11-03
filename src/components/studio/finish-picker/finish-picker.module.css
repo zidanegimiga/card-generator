@@ -1,0 +1,58 @@
+.picker {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.legend {
+  float: left;
+  width: 100%;
+  margin-bottom: 0.875rem;
+  font-size: var(--text-sm);
+}
+
+.grid {
+  display: grid;
+  clear: both;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.875rem 0.75rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.option:hover,
+.option:has(:checked) {
+  color: var(--foreground);
+}
+
+.swatch {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+.option:has(:checked) .swatch {
+  outline: 1.5px solid var(--foreground);
+  outline-offset: 2px;
+}
+
+.option:has(:focus-visible) .swatch {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.label {
+  overflow: hidden;
+  font-size: var(--text-xs);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

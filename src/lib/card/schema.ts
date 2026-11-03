@@ -57,9 +57,35 @@ export const brandSchema = z.object({
   colors: brandColorsSchema,
 });
 
-export const CARD_STYLES = ["slate", "poster", "transit", "blueprint"] as const;
+export const CARD_STYLES = [
+  "slate",
+  "alloy",
+  "foil",
+  "chrome",
+  "carbon",
+  "gingham",
+  "press",
+  "poster",
+  "transit",
+  "blueprint",
+] as const;
 
 export const cardStyleSchema = z.enum(CARD_STYLES);
+
+export const FINISHES = [
+  "brand",
+  "silver",
+  "gold",
+  "graphite",
+  "copper",
+  "jade",
+  "cobalt",
+  "bone",
+  "oxblood",
+] as const;
+
+/** Cards saved before finishes existed have none, so default to the brand. */
+export const finishSchema = z.enum(FINISHES).default("brand");
 
 /**
  * A font is either a hosted Google Font or one the user uploaded.
@@ -113,6 +139,7 @@ export const memberSchema = z.object({
 export const cardConfigSchema = z.object({
   brand: brandSchema,
   style: cardStyleSchema,
+  finish: finishSchema,
   font: fontSourceSchema,
   member: memberSchema,
 });
@@ -121,6 +148,7 @@ export type HexColor = z.output<typeof hexColorSchema>;
 export type BrandColors = z.output<typeof brandColorsSchema>;
 export type Brand = z.output<typeof brandSchema>;
 export type CardStyle = z.output<typeof cardStyleSchema>;
+export type Finish = z.output<typeof finishSchema>;
 export type FontSource = z.output<typeof fontSourceSchema>;
 export type CustomFontSource = Extract<FontSource, { kind: "custom" }>;
 export type Member = z.output<typeof memberSchema>;

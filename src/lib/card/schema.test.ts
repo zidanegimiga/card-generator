@@ -2,6 +2,7 @@ import { describe, expect, expectTypeOf, it } from "vitest";
 
 import { DEFAULT_CARD_CONFIG } from "./defaults";
 import {
+  CARD_STYLES,
   type CardConfig,
   type CardConfigInput,
   type FontSource,
@@ -130,7 +131,7 @@ describe("cardConfigSchema", () => {
   it("separates input and output types", () => {
     expectTypeOf<CardConfigInput["font"]>().toEqualTypeOf<FontSource>();
     expectTypeOf<CardConfig["style"]>().toEqualTypeOf<
-      "slate" | "poster" | "transit" | "blueprint"
+      (typeof CARD_STYLES)[number]
     >();
   });
 });

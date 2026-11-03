@@ -1,0 +1,17 @@
+.tilt {
+  perspective: 900px;
+}
+
+/* A size container like the card, so the sheen's cqw radius matches it. */
+.plane {
+  container-type: inline-size;
+  position: relative;
+}
+
+.sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 3.2cqw;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
