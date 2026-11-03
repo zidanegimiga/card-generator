@@ -1,6 +1,5 @@
 "use client";
 
-import { ImageUp, Trash2 } from "lucide-react";
 import { useId, useState } from "react";
 
 import {
@@ -14,8 +13,8 @@ import {
 } from "@/lib/card/brand-fields";
 import { BRAND_NAME_LIMIT, type Brand, type HexColor } from "@/lib/card/schema";
 import { contrastRatio, rateContrast } from "@/lib/color/contrast";
-import { IMAGE_ACCEPT, readImageFile } from "@/lib/images/read-image";
 
+import { ImageField } from "./image-field";
 import { type FieldMeta, TextField } from "./text-field";
 
 const TEXT_META: Record<BrandTextField, FieldMeta> = {
@@ -82,9 +81,10 @@ export function BrandForm({ brand, onChange }: BrandFormProps) {
         />
       ))}
 
-      <LogoField
-        brandName={brand.name}
-        logoUrl={brand.logoUrl}
+      <ImageField
+        label="Logo"
+        alt={`${brand.name} logo`}
+        value={brand.logoUrl}
         onChange={(logoUrl) => onChange({ ...brand, logoUrl })}
       />
 
@@ -192,77 +192,5 @@ function ContrastCheck({
         <span className={RATING_STYLES[rating]}>{rating}</span>
       </span>
     </p>
-  );
-}
-
-type LogoFieldProps = {
-  brandName: string;
-  logoUrl?: string;
-  onChange: (logoUrl: string | undefined) => void;
-};
-
-function LogoField({ brandName, logoUrl, onChange }: LogoFieldProps) {
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleFile(file: File) {
-    const result = await readImageFile(file);
-    if (result.ok) {
-      setError(null);
-      onChange(result.dataUrl);
-    } else {
-      setError(result.error);
-    }
-  }
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <span className="text-sm">Logo</span>
-      <div className="flex items-center gap-3">
-        <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-background">
-          {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element -- data URLs can't use next/image
-            <img
-              src={logoUrl}
-              alt={`${brandName} logo`}
-              className="size-full object-contain p-1.5"
-            />
-          ) : (
-            <ImageUp aria-hidden className="size-4 text-muted" />
-          )}
-        </div>
-        <label className="cursor-pointer rounded-lg border border-border px-3 py-1.5 text-sm hover:border-muted has-focus-visible:ring-2 has-focus-visible:ring-accent">
-          {logoUrl ? "Replace logo" : "Upload logo"}
-          <input
-            type="file"
-            accept={IMAGE_ACCEPT}
-            className="sr-only"
-            onChange={(event) => {
-              const file = event.target.files?.[0];
-              event.target.value = "";
-              if (file) void handleFile(file);
-            }}
-          />
-        </label>
-        {logoUrl && (
-          <button
-            type="button"
-            aria-label="Remove logo"
-            onClick={() => onChange(undefined)}
-            className="grid size-8 place-items-center rounded-lg text-muted hover:bg-surface-raised hover:text-red-400"
-          >
-            <Trash2 aria-hidden className="size-4" />
-          </button>
-        )}
-      </div>
-      {error ? (
-        <p role="alert" className="text-xs text-red-400">
-          {error}
-        </p>
-      ) : (
-        <p className="text-xs text-muted">
-          PNG, JPEG, WebP, or SVG up to 1 MB.
-        </p>
-      )}
-    </div>
   );
 }

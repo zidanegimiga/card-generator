@@ -118,4 +118,19 @@ describe("MemberForm", () => {
       "Leave blank to generate one from the name.",
     );
   });
+
+  it("uploads a member photo", async () => {
+    const { user, lastMember } = setup();
+    const photo = new File(["png"], "me.png", { type: "image/png" });
+
+    await user.upload(screen.getByLabelText("Upload photo"), photo);
+
+    expect(
+      await screen.findByRole("img", { name: "Photo of Ada Lovelace" }),
+    ).toBeInTheDocument();
+    expect(lastMember()?.photoUrl).toMatch(/^data:image\/png;base64,/);
+
+    await user.click(screen.getByRole("button", { name: "Remove photo" }));
+    expect(lastMember()?.photoUrl).toBeUndefined();
+  });
 });

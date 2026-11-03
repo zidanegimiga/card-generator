@@ -11,6 +11,7 @@ import {
 } from "@/lib/card/member-fields";
 import { MEMBER_LIMITS, type Member } from "@/lib/card/schema";
 
+import { ImageField } from "./image-field";
 import { type FieldMeta, TextField } from "./text-field";
 
 const FIELD_META: Record<MemberFieldName, FieldMeta> = {
@@ -70,6 +71,13 @@ export function MemberForm({ member, onChange }: MemberFormProps) {
       onSubmit={(event) => event.preventDefault()}
       className="flex flex-col gap-5"
     >
+      <ImageField
+        label="Photo"
+        alt={`Photo of ${member.fullName}`}
+        value={member.photoUrl}
+        fit="cover"
+        onChange={(photoUrl) => onChange({ ...member, photoUrl })}
+      />
       {MEMBER_FIELDS.map((name) => (
         <TextField
           key={name}
