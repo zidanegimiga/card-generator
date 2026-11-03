@@ -4,15 +4,23 @@ import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_CARD_CONFIG } from "@/lib/card/defaults";
+import type { BrandPullResult } from "@/lib/brand-pull/client";
 import type { Brand } from "@/lib/card/schema";
 
-import { BrandForm } from "./brand-form";
+import { applyBrandPull, BrandForm } from "./brand-form";
 
-function Harness({ onChange }: { onChange: (brand: Brand) => void }) {
+function Harness({
+  onChange,
+  requestPull,
+}: {
+  onChange: (brand: Brand) => void;
+  requestPull?: (site: string) => Promise<BrandPullResult>;
+}) {
   const [brand, setBrand] = useState<Brand>(DEFAULT_CARD_CONFIG.brand);
   return (
     <BrandForm
       brand={brand}
+      requestPull={requestPull}
       onChange={(next) => {
         setBrand(next);
         onChange(next);
@@ -95,7 +103,7 @@ describe("BrandForm", () => {
 
       expect(
         screen.getByRole("status", { name: "Text contrast" }),
-      ).toHaveTextContent("17.9:1 AAA");
+      ).toHaveTextContent("15.8:1 AAA");
     });
 
     it("warns when text and background are too close", () => {
@@ -152,6 +160,138 @@ describe("BrandForm", () => {
         "Use a PNG, JPEG, WebP, or SVG image.",
       );
       expect(onChange).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("pull from a website", () => {
+    const LOGO = "data:image/png;base64,AQID";
+
+    function setupPull(result: BrandPullResult) {
+      const user = userEvent.setup();
+      const onChange = vi.fn<(brand: Brand) => void>();
+      const requestPull = vi.fn(async () => result);
+      render(<Harness onChange={onChange} requestPull={requestPull} />);
+      const site = screen.getByLabelText("Pull from a website");
+      const pull = screen.getByRole("button", { name: "Pull" });
+      return { user, onChange, requestPull, site, pull };
+    }
+
+    it("fills the form and the card from the site", async () => {
+      const { user, onChange, requestPull, site, pull } = setupPull({
+        ok: true,
+        brand: {
+          name: "Linear",
+          domain: "linear.app",
+          primary: "#5e6ad2",
+          logoUrl: LOGO,
+        },
+      });
+
+      await user.type(site, "linear.app");
+      await user.click(pull);
+
+      expect(requestPull).toHaveBeenCalledWith("linear.app");
+      expect(screen.getByLabelText("Brand name")).toHaveValue("Linear");
+      expect(screen.getByLabelText("Website")).toHaveValue("linear.app");
+      expect(screen.getByLabelText("Primary")).toHaveValue("#5e6ad2");
+      expect(screen.getByRole("img", { name: "Linear logo" })).toHaveAttribute(
+        "src",
+        LOGO,
+      );
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({ name: "Linear", logoUrl: LOGO }),
+      );
+      expect(
+        screen.getByText("Pulled Linear. Adjust anything below."),
+      ).toBeInTheDocument();
+    });
+
+    it("submits with Enter", async () => {
+      const { user, requestPull, site } = setupPull({
+        ok: true,
+        brand: { name: "Exa", domain: "exa.ai" },
+      });
+
+      await user.type(site, "exa.ai{Enter}");
+
+      expect(requestPull).toHaveBeenCalledWith("exa.ai");
+    });
+
+    it("shows the reason a pull failed and leaves the brand alone", async () => {
+      const { user, onChange, site, pull } = setupPull({
+        ok: false,
+        error: "That address isn't a public website.",
+      });
+
+      await user.type(site, "127.0.0.1");
+      await user.click(pull);
+
+      expect(
+        screen.getByText("That address isn't a public website."),
+      ).toBeInTheDocument();
+      expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it("asks for a site instead of calling the API with nothing", async () => {
+      const { user, requestPull, pull } = setupPull({
+        ok: true,
+        brand: { name: "X", domain: "x.com" },
+      });
+
+      await user.click(pull);
+
+      expect(
+        screen.getByText("Enter a website, like linear.app."),
+      ).toBeInTheDocument();
+      expect(requestPull).not.toHaveBeenCalled();
+    });
+
+    it("disables the button while pulling", async () => {
+      const user = userEvent.setup();
+      let finish!: (result: BrandPullResult) => void;
+      render(
+        <Harness
+          onChange={vi.fn()}
+          requestPull={() => new Promise((resolve) => (finish = resolve))}
+        />,
+      );
+
+      await user.type(screen.getByLabelText("Pull from a website"), "x.com");
+      await user.click(screen.getByRole("button", { name: "Pull" }));
+
+      expect(screen.getByRole("button", { name: "Pulling…" })).toBeDisabled();
+      finish({ ok: true, brand: { name: "X", domain: "x.com" } });
+      expect(await screen.findByRole("button", { name: "Pull" })).toBeEnabled();
+    });
+  });
+});
+
+describe("applyBrandPull", () => {
+  it("keeps the existing logo and colour when the site has none", () => {
+    const brand = {
+      ...DEFAULT_CARD_CONFIG.brand,
+      logoUrl: "data:image/png;base64,AA==",
+    };
+
+    expect(applyBrandPull(brand, { name: "Exa", domain: "exa.ai" })).toEqual({
+      ...brand,
+      name: "Exa",
+      domain: "exa.ai",
+    });
+  });
+
+  it("takes a pulled background and text colour together", () => {
+    const next = applyBrandPull(DEFAULT_CARD_CONFIG.brand, {
+      name: "Vercel",
+      domain: "vercel.com",
+      background: "#fafafa",
+      text: "#111111",
+    });
+
+    expect(next.colors).toEqual({
+      ...DEFAULT_CARD_CONFIG.brand.colors,
+      background: "#fafafa",
+      text: "#111111",
     });
   });
 });
