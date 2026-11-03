@@ -1,15 +1,17 @@
 "use client";
 
 import { MotionConfig } from "motion/react";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useSyncExternalStore } from "react";
 
 import { IdCard } from "@/components/card/id-card";
+import { useCardConfig } from "@/hooks/use-card-config";
 import { useCustomFonts } from "@/hooks/use-custom-fonts";
+import type { ConfigStore } from "@/lib/card/config-store";
 import { DEFAULT_CARD_CONFIG } from "@/lib/card/defaults";
-import type { CardConfig } from "@/lib/card/schema";
 import { googleFontsHref } from "@/lib/fonts/catalog";
 
 import { BrandForm } from "./brand-form";
+import { CardTilt } from "./card-tilt";
 import { ExportPanel } from "./export-panel";
 import { FontPicker } from "./font-picker";
 import { MemberForm } from "./member-form";
@@ -18,11 +20,35 @@ import { StylePicker } from "./style-picker";
 import { StepperRail } from "./stepper-rail";
 import { INITIAL_STEPPER_STATE, STUDIO_STEPS, stepperReducer } from "./steps";
 
-export function Studio() {
+const noopSubscribe = () => () => {};
+
+/** False during SSR and hydration, true after. */
+function useHydrated() {
+  return useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false,
+  );
+}
+
+export function Studio({ store }: { store?: ConfigStore }) {
   const [stepper, dispatch] = useReducer(stepperReducer, INITIAL_STEPPER_STATE);
-  const [config, setConfig] = useState<CardConfig>(DEFAULT_CARD_CONFIG);
+  const [config, setConfig] = useCardConfig(store);
   const customFonts = useCustomFonts();
+  const hydrated = useHydrated();
   const step = STUDIO_STEPS[stepper.index];
+
+  // A saved card can point at an uploaded font that has since been removed.
+  const { font } = config;
+  const missingUpload =
+    customFonts.ready &&
+    font.kind === "custom" &&
+    !customFonts.fonts.some((upload) => upload.id === font.id);
+  useEffect(() => {
+    if (missingUpload) {
+      setConfig((current) => ({ ...current, font: DEFAULT_CARD_CONFIG.font }));
+    }
+  }, [missingUpload, setConfig]);
 
   function renderStep() {
     switch (step.id) {
@@ -88,13 +114,16 @@ export function Studio() {
               onBack={() => dispatch({ type: "back" })}
               onNext={() => dispatch({ type: "next" })}
             >
-              {renderStep()}
+              {/* Forms copy their values on mount, so remount once the saved card loads. */}
+              <div key={String(hydrated)}>{renderStep()}</div>
             </StepPanel>
           </div>
         </aside>
 
         <main className="grid flex-1 place-items-center bg-background p-8">
-          <IdCard config={config} />
+          <CardTilt className="w-52 md:w-72">
+            <IdCard config={config} className="w-full" />
+          </CardTilt>
         </main>
       </div>
     </MotionConfig>

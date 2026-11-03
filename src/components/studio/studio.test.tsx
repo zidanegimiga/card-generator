@@ -1,12 +1,35 @@
-import { render, screen, within } from "@testing-library/react";
+import {
+  cleanup,
+  render,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
+import {
+  CONFIG_STORAGE_KEY,
+  type ConfigStore,
+  createConfigStore,
+} from "@/lib/card/config-store";
+import { DEFAULT_CARD_CONFIG } from "@/lib/card/defaults";
+
 import { Studio } from "./studio";
 
-function setup() {
+/** Each test gets its own in-memory storage so saved cards never leak between tests. */
+function memoryStorage(initial: Record<string, string> = {}) {
+  const data = new Map(Object.entries(initial));
+  return {
+    getItem: (key: string) => data.get(key) ?? null,
+    setItem: (key: string, value: string) => void data.set(key, value),
+    data,
+  };
+}
+
+function setup(store: ConfigStore = createConfigStore({ storage: null })) {
   const user = userEvent.setup();
-  render(<Studio />);
+  render(<Studio store={store} />);
   const rail = screen.getByRole("navigation", { name: "Studio steps" });
   const stepHeading = () => screen.getByRole("heading", { level: 2 });
   return { user, rail, stepHeading };
@@ -121,5 +144,47 @@ describe("Studio", () => {
     expect(
       await within(card).findByRole("img", { name: "Photo of Ada Lovelace" }),
     ).toBeInTheDocument();
+  });
+
+  describe("saving", () => {
+    it("restores the saved card on the next visit", async () => {
+      const storage = memoryStorage();
+      const first = setup(createConfigStore({ storage, debounceMs: 0 }));
+
+      const name = screen.getByLabelText("Brand name");
+      await first.user.clear(name);
+      await first.user.type(name, "Linear");
+      cleanup();
+
+      setup(createConfigStore({ storage }));
+
+      expect(screen.getByLabelText("Brand name")).toHaveValue("Linear");
+      expect(
+        screen.getByRole("article", {
+          name: "Linear ID card for Ada Lovelace",
+        }),
+      ).toBeInTheDocument();
+    });
+
+    it("falls back to the default font when a saved upload is gone", async () => {
+      const saved = {
+        ...DEFAULT_CARD_CONFIG,
+        font: {
+          kind: "custom",
+          id: "deleted",
+          family: "Gone",
+          fileName: "gone.woff2",
+        },
+      };
+      const store = createConfigStore({
+        storage: memoryStorage({ [CONFIG_STORAGE_KEY]: JSON.stringify(saved) }),
+      });
+
+      setup(store);
+
+      await waitFor(() =>
+        expect(store.getSnapshot().font).toEqual(DEFAULT_CARD_CONFIG.font),
+      );
+    });
   });
 });
