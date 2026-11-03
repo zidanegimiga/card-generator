@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 const HEX_COLOR = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+const DOMAIN = /^(?!-)[a-z0-9-]{1,63}(?:\.[a-z0-9-]{1,63})+$/;
 
 /** Accepts `#abc` or `#aabbcc` in any case and normalises to lowercase `#aabbcc`. */
 export const hexColorSchema = z
   .string()
   .trim()
-  .regex(HEX_COLOR, "Expected a hex colour like #5e6ad2")
+  .regex(HEX_COLOR, "Use a hex colour like #5e6ad2")
   .transform((value) => {
     const hex = value.slice(1).toLowerCase();
     const full =
@@ -26,10 +27,33 @@ export const brandColorsSchema = z.object({
   text: hexColorSchema,
 });
 
+export const BRAND_NAME_LIMIT = 32;
+
+/** An https image URL, or an uploaded image as a `data:image/...` URL. */
+export const imageUrlSchema = z
+  .url({ protocol: /^(https|data)$/, error: "Use an https or uploaded image" })
+  .refine(
+    (value) => !value.startsWith("data:") || value.startsWith("data:image/"),
+    "Use an https or uploaded image",
+  );
+
+/** Accepts a bare domain or a pasted URL, and keeps just the host. */
+export const domainSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .transform((value) =>
+    value
+      .replace(/^https?:\/\//, "")
+      .replace(/^www\./, "")
+      .replace(/[/?#].*$/, ""),
+  )
+  .pipe(z.string().max(253).regex(DOMAIN, "Enter a domain like linear.app"));
+
 export const brandSchema = z.object({
-  name: z.string().trim().min(1).max(32),
-  domain: z.string().trim().max(253).optional(),
-  logoUrl: z.url().optional(),
+  name: z.string().trim().min(1, "Enter a brand name").max(BRAND_NAME_LIMIT),
+  domain: domainSchema.optional(),
+  logoUrl: imageUrlSchema.optional(),
   colors: brandColorsSchema,
 });
 
@@ -82,7 +106,7 @@ export const memberSchema = z.object({
     .trim()
     .regex(MEMBER_ID_PATTERN, "Use 11 digits, like 1234 5678 901")
     .optional(),
-  photoUrl: z.string().optional(),
+  photoUrl: imageUrlSchema.optional(),
   qrUrl: z.url("Enter a full link, like https://example.com").optional(),
 });
 

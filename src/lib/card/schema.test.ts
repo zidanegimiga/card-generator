@@ -8,6 +8,7 @@ import {
   cardConfigSchema,
   fontSourceSchema,
   hexColorSchema,
+  imageUrlSchema,
   MEMBER_LIMITS,
   memberSchema,
   parseCardConfig,
@@ -171,5 +172,24 @@ describe("parseCardConfig", () => {
       ok: false,
       errors: [expect.stringMatching(/^\(root\): /)],
     });
+  });
+});
+
+describe("imageUrlSchema", () => {
+  it.each([
+    "https://linear.app/logo.svg",
+    "data:image/png;base64,iVBORw0KGgo=",
+    "data:image/svg+xml;base64,PHN2Zz4=",
+  ])("accepts %s", (url) => {
+    expect(imageUrlSchema.safeParse(url).success).toBe(true);
+  });
+
+  it.each([
+    "javascript:alert(1)",
+    "http://insecure.example/logo.png",
+    "data:text/html,<script>alert(1)</script>",
+    "logo.png",
+  ])("rejects %s", (url) => {
+    expect(imageUrlSchema.safeParse(url).success).toBe(false);
   });
 });
