@@ -10,6 +10,7 @@ import type { CardConfig } from "@/lib/card/schema";
 import { googleFontsHref } from "@/lib/fonts/catalog";
 
 import { BrandForm } from "./brand-form";
+import { ExportPanel } from "./export-panel";
 import { FontPicker } from "./font-picker";
 import { MemberForm } from "./member-form";
 import { StepPanel } from "./step-panel";
@@ -60,12 +61,8 @@ export function Studio() {
             }
           />
         );
-      default:
-        return (
-          <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted">
-            {step.label} controls are coming in a later step.
-          </p>
-        );
+      case "export":
+        return <ExportPanel config={config} />;
     }
   }
 
