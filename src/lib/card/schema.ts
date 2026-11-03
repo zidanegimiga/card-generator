@@ -64,17 +64,26 @@ export const MEMBER_LIMITS = {
 export const MEMBER_ID_PATTERN = /^\d{4} \d{4} \d{3}$/;
 
 export const memberSchema = z.object({
-  fullName: z.string().trim().min(1).max(MEMBER_LIMITS.fullName),
+  fullName: z
+    .string()
+    .trim()
+    .min(1, "Enter a name")
+    .max(MEMBER_LIMITS.fullName),
   title: z.string().trim().max(MEMBER_LIMITS.title),
   membership: z.string().trim().max(MEMBER_LIMITS.membership),
   label: z.string().trim().max(MEMBER_LIMITS.label),
-  memberSince: z.number().int().min(1900).max(2100),
+  memberSince: z
+    .number({ error: "Enter a year" })
+    .int("Enter a whole year")
+    .min(1900, "Enter a year from 1900 to 2100")
+    .max(2100, "Enter a year from 1900 to 2100"),
   memberId: z
     .string()
-    .regex(MEMBER_ID_PATTERN, "Expected a member ID like 1234 5678 901")
+    .trim()
+    .regex(MEMBER_ID_PATTERN, "Use 11 digits, like 1234 5678 901")
     .optional(),
   photoUrl: z.string().optional(),
-  qrUrl: z.url().optional(),
+  qrUrl: z.url("Enter a full link, like https://example.com").optional(),
 });
 
 export const cardConfigSchema = z.object({
