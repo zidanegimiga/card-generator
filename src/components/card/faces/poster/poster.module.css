@@ -37,9 +37,10 @@
   white-space: pre-line;
 }
 
+/* Tucks into the block's bottom padding (6cqw), never over the name above it. */
 .portrait {
   position: absolute;
-  top: 52%;
+  top: calc(64% - 6cqw);
   right: 7cqw;
   width: 27cqw;
   height: 34cqw;

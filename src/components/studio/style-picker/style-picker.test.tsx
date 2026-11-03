@@ -1,10 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { DEFAULT_CARD_CONFIG } from "@/lib/card/defaults";
 import { CARD_STYLES, type CardStyle } from "@/lib/card/schema";
+import { STYLE_GROUPS } from "@/lib/card/styles";
 
 import { StylePicker } from "./style-picker";
 
@@ -53,13 +54,34 @@ describe("StylePicker", () => {
     expect(screen.getByRole("radio", { name: "Blueprint" })).toBeChecked();
   });
 
-  it("can be operated with arrow keys", async () => {
+  it("sections materials and layouts under their own headings", () => {
+    setup();
+
+    const materials = screen.getByRole("region", { name: "Materials" });
+    const layouts = screen.getByRole("region", { name: "Layouts" });
+
+    expect(
+      within(materials).getByRole("radio", { name: "Alloy" }),
+    ).toBeInTheDocument();
+    expect(
+      within(materials).getByRole("radio", { name: "Press" }),
+    ).toBeInTheDocument();
+    expect(
+      within(layouts).getByRole("radio", { name: "Slate" }),
+    ).toBeInTheDocument();
+    expect(
+      within(layouts).queryByRole("radio", { name: "Foil" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps one radio group, so arrow keys cross sections", async () => {
     const { user, onChange } = setup();
 
-    await user.click(screen.getByRole("radio", { name: "Slate" }));
+    await user.click(screen.getByRole("radio", { name: "Press" }));
     await user.keyboard("{ArrowRight}");
 
-    expect(onChange).toHaveBeenLastCalledWith("alloy");
+    // Press is the last material; the next option is the first layout.
+    expect(onChange).toHaveBeenLastCalledWith("slate");
   });
 
   it("previews the member's own card in each style", () => {
@@ -67,7 +89,7 @@ describe("StylePicker", () => {
 
     const previews = [...container.querySelectorAll("article[data-style]")];
     expect(previews.map((card) => card.getAttribute("data-style"))).toEqual(
-      CARD_STYLES,
+      STYLE_GROUPS.flatMap((group) => group.styles),
     );
     expect(
       previews.every((card) =>

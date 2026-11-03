@@ -45,3 +45,26 @@ export const CARD_STYLE_META: Record<
     description: "A technical drawing on a measured grid.",
   },
 };
+
+export type StyleGroup = {
+  id: "materials" | "layouts";
+  label: string;
+  description: string;
+  styles: readonly CardStyle[];
+};
+
+/** How the picker sections the styles. Every style appears in exactly one group. */
+export const STYLE_GROUPS: readonly StyleGroup[] = [
+  {
+    id: "materials",
+    label: "Materials",
+    description: "Metal, film, fibre, fabric, and paper. Pair with a finish.",
+    styles: ["alloy", "foil", "chrome", "carbon", "gingham", "press"],
+  },
+  {
+    id: "layouts",
+    label: "Layouts",
+    description: "Flat designs in your brand colours.",
+    styles: ["slate", "poster", "transit", "blueprint"],
+  },
+];
