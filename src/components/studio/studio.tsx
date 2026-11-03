@@ -93,7 +93,7 @@ export function Studio() {
           </div>
         </aside>
 
-        <main className="grid flex-1 place-items-center bg-[radial-gradient(circle_at_center,#18181d_0%,var(--background)_70%)] p-8">
+        <main className="grid flex-1 place-items-center bg-background p-8">
           <IdCard config={config} />
         </main>
       </div>

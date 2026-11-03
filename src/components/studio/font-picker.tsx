@@ -88,7 +88,7 @@ export function FontPicker({ value, onChange, customFonts }: FontPickerProps) {
                   type="button"
                   aria-label={`Remove ${font.family}`}
                   onClick={() => handleRemove(font.id)}
-                  className="grid size-9 shrink-0 place-items-center rounded-lg text-muted hover:bg-surface-raised hover:text-red-400"
+                  className="grid size-9 shrink-0 place-items-center rounded-md text-muted hover:bg-surface-raised hover:text-red-400"
                 >
                   <Trash2 aria-hidden className="size-4" />
                 </button>
@@ -145,7 +145,7 @@ function FontOption({
   onSelect,
 }: FontOptionProps) {
   return (
-    <label className="flex min-w-0 flex-1 cursor-pointer items-center justify-between gap-3 rounded-lg border border-transparent px-3 py-2 hover:bg-surface-raised has-checked:border-accent/60 has-checked:bg-surface-raised has-focus-visible:ring-2 has-focus-visible:ring-accent">
+    <label className="group flex min-w-0 flex-1 cursor-pointer items-center gap-3 py-2 text-muted hover:text-foreground has-checked:text-foreground has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent">
       <input
         type="radio"
         name={name}
@@ -154,7 +154,11 @@ function FontOption({
         className="sr-only"
       />
       <span
-        className="truncate text-base"
+        aria-hidden
+        className="size-1.5 shrink-0 rounded-full bg-transparent group-has-checked:bg-accent"
+      />
+      <span
+        className="min-w-0 flex-1 truncate text-base"
         style={{ fontFamily: cssFontFamily(font) }}
       >
         {label}
@@ -190,7 +194,7 @@ function FontDropzone({ busy, onFile }: FontDropzoneProps) {
       }}
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
-      className="flex cursor-pointer flex-col items-center gap-1 rounded-lg border border-dashed border-border px-4 py-5 text-center transition-colors hover:border-muted has-focus-visible:ring-2 has-focus-visible:ring-accent data-dragging:border-accent data-dragging:bg-accent/5"
+      className="flex cursor-pointer items-center gap-3 rounded-md bg-surface-raised px-4 py-3.5 transition-colors hover:bg-[#252522] has-focus-visible:outline-2 has-focus-visible:outline-accent data-dragging:outline-2 data-dragging:outline-accent"
     >
       <input
         type="file"
@@ -203,10 +207,14 @@ function FontDropzone({ busy, onFile }: FontDropzoneProps) {
         }}
         className="sr-only"
       />
-      <Upload aria-hidden className="size-4 text-muted" />
-      <span className="text-sm">{busy ? "Adding font…" : "Upload a font"}</span>
-      <span className="text-xs text-muted">
-        Drop a .woff2, .woff, .ttf, or .otf file up to 2 MB
+      <Upload aria-hidden className="size-4 shrink-0 text-muted" />
+      <span className="flex flex-col">
+        <span className="text-sm">
+          {busy ? "Adding font…" : "Upload a font"}
+        </span>
+        <span className="text-xs text-muted">
+          Drop a .woff2, .woff, .ttf, or .otf file up to 2 MB
+        </span>
       </span>
     </label>
   );

@@ -83,13 +83,13 @@ export function StepperRail({ activeIndex, onSelect }: StepperRailProps) {
                   type="button"
                   aria-current={isActive ? "step" : undefined}
                   onClick={() => onSelect(step.id)}
-                  className="group relative flex h-11 w-full items-center gap-3 rounded-lg px-3 text-sm text-muted outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent aria-[current=step]:text-foreground max-md:h-auto max-md:flex-col max-md:gap-1 max-md:px-2 max-md:py-1.5 max-md:text-[11px]"
+                  className="group relative flex h-11 w-full items-center gap-3 rounded-md px-3 text-sm text-muted outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-accent aria-[current=step]:text-foreground max-md:h-auto max-md:flex-col max-md:gap-1 max-md:px-2 max-md:py-1.5 max-md:text-[11px]"
                 >
                   {isActive && (
                     <motion.span
                       layoutId="rail-active-indicator"
                       transition={spring}
-                      className="absolute inset-0 rounded-lg bg-surface-raised"
+                      className="absolute inset-0 rounded-md bg-surface-raised"
                     >
                       <span className="absolute top-2 bottom-2 -left-2 w-0.5 rounded-full bg-accent max-md:hidden" />
                     </motion.span>

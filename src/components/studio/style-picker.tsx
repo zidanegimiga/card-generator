@@ -22,13 +22,13 @@ export function StylePicker({ config, onChange }: StylePickerProps) {
   return (
     <fieldset className="min-w-0">
       <legend className="sr-only">Card style</legend>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-6">
         {CARD_STYLES.map((style) => {
           const meta = CARD_STYLE_META[style];
           return (
             <label
               key={style}
-              className="group flex cursor-pointer flex-col gap-2 rounded-xl border border-border p-2 hover:border-muted has-checked:border-accent has-checked:bg-surface-raised has-focus-visible:ring-2 has-focus-visible:ring-accent"
+              className="group flex cursor-pointer flex-col gap-2.5"
             >
               <input
                 type="radio"
@@ -38,19 +38,28 @@ export function StylePicker({ config, onChange }: StylePickerProps) {
                 onChange={() => onChange(style)}
                 aria-labelledby={`${name}-${style}-label`}
                 aria-describedby={`${name}-${style}`}
-                className="sr-only"
+                className="peer sr-only"
               />
-              <IdCard
-                config={{ ...config, style }}
-                className="w-full"
-                decorative
-              />
-              <span id={`${name}-${style}-label`} className="px-1 text-sm">
+              <div className="opacity-45 transition-opacity duration-200 group-hover:opacity-80 peer-checked:opacity-100 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-accent">
+                <IdCard
+                  config={{ ...config, style }}
+                  className="w-full"
+                  decorative
+                />
+              </div>
+              <span
+                id={`${name}-${style}-label`}
+                className="flex items-center gap-2 text-sm text-muted peer-checked:text-foreground"
+              >
+                <span
+                  aria-hidden
+                  className="size-1.5 rounded-full bg-transparent transition-colors group-has-checked:bg-accent"
+                />
                 {meta.label}
               </span>
               <span
                 id={`${name}-${style}`}
-                className="px-1 pb-1 text-xs leading-snug text-muted"
+                className="-mt-1.5 text-xs leading-snug text-muted"
               >
                 {meta.description}
               </span>

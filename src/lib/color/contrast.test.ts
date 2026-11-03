@@ -34,7 +34,7 @@ describe("contrastRatio", () => {
   it.each([
     ["#777777", "#ffffff", 4.48],
     ["#767676", "#ffffff", 4.54],
-    ["#f4f4f5", "#0b0b0f", 17.87],
+    ["#f1ede6", "#141414", 15.79],
   ] as const)("%s on %s is %d:1", (a, b, expected) => {
     expect(contrastRatio(a, b)).toBeCloseTo(expected, 1);
   });

@@ -6,11 +6,11 @@ export const CARD_STYLE_META: Record<
 > = {
   slate: {
     label: "Slate",
-    description: "Quiet and minimal, with an accent bar.",
+    description: "Quiet and minimal, with a rule of brand colour.",
   },
-  halo: {
-    label: "Halo",
-    description: "Frosted glass over a glow of brand colour.",
+  poster: {
+    label: "Poster",
+    description: "Oversized type on a solid block of colour.",
   },
   transit: {
     label: "Transit",

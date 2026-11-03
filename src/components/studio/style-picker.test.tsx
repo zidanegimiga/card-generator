@@ -59,7 +59,7 @@ describe("StylePicker", () => {
     await user.click(screen.getByRole("radio", { name: "Slate" }));
     await user.keyboard("{ArrowRight}");
 
-    expect(onChange).toHaveBeenLastCalledWith("halo");
+    expect(onChange).toHaveBeenLastCalledWith("poster");
   });
 
   it("previews the member's own card in each style", () => {
@@ -68,12 +68,14 @@ describe("StylePicker", () => {
     const previews = [...container.querySelectorAll("article[data-style]")];
     expect(previews.map((card) => card.getAttribute("data-style"))).toEqual([
       "slate",
-      "halo",
+      "poster",
       "transit",
       "blueprint",
     ]);
     expect(
-      previews.every((card) => card.textContent?.includes("Ada Lovelace")),
+      previews.every((card) =>
+        card.textContent?.replace(/\s+/g, " ").includes("Ada Lovelace"),
+      ),
     ).toBe(true);
   });
 });

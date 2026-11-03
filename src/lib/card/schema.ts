@@ -57,7 +57,7 @@ export const brandSchema = z.object({
   colors: brandColorsSchema,
 });
 
-export const CARD_STYLES = ["slate", "halo", "transit", "blueprint"] as const;
+export const CARD_STYLES = ["slate", "poster", "transit", "blueprint"] as const;
 
 export const cardStyleSchema = z.enum(CARD_STYLES);
 

@@ -130,7 +130,7 @@ describe("cardConfigSchema", () => {
   it("separates input and output types", () => {
     expectTypeOf<CardConfigInput["font"]>().toEqualTypeOf<FontSource>();
     expectTypeOf<CardConfig["style"]>().toEqualTypeOf<
-      "slate" | "halo" | "transit" | "blueprint"
+      "slate" | "poster" | "transit" | "blueprint"
     >();
   });
 });

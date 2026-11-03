@@ -57,14 +57,14 @@ export function ExportPanel({
 
   return (
     <div className="flex flex-col gap-5">
-      <dl className="divide-y divide-border rounded-lg border border-border text-sm">
+      <dl className="divide-y divide-border border-y border-border text-sm">
         {[
           ["Style", CARD_STYLE_META[config.style].label],
           ["Font", font],
           ["QR code", qrValue ?? "Off (add a website or QR link)"],
           ["Size", `${EXPORT_SIZE.width} × ${EXPORT_SIZE.height} px`],
         ].map(([term, detail]) => (
-          <div key={term} className="flex justify-between gap-4 px-3 py-2">
+          <div key={term} className="flex justify-between gap-4 py-2.5">
             <dt className="text-muted">{term}</dt>
             <dd className="truncate text-right">{detail}</dd>
           </div>
@@ -75,7 +75,7 @@ export function ExportPanel({
         type="button"
         onClick={handleExport}
         disabled={status.type === "rendering"}
-        className="flex h-10 items-center justify-center gap-2 rounded-lg bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
+        className="flex h-10 items-center justify-center gap-2 rounded-md bg-foreground text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-60"
       >
         {status.type === "rendering" ? (
           <LoaderCircle aria-hidden className="size-4 animate-spin" />

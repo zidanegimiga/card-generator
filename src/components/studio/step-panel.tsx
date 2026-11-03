@@ -69,7 +69,7 @@ export function StepPanel({
           type="button"
           onClick={onBack}
           disabled={isFirst}
-          className="flex items-center gap-1 rounded-lg px-3 py-2 text-sm text-muted hover:text-foreground disabled:invisible"
+          className="flex items-center gap-1 rounded-md px-3 py-2 text-sm text-muted hover:text-foreground disabled:invisible"
         >
           <ChevronLeft aria-hidden className="size-4" />
           Back
@@ -78,7 +78,7 @@ export function StepPanel({
           <button
             type="button"
             onClick={onNext}
-            className="flex items-center gap-1 rounded-lg bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
+            className="flex items-center gap-1 rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
           >
             Next
             <ChevronRight aria-hidden className="size-4" />

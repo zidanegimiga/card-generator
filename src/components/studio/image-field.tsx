@@ -41,7 +41,7 @@ export function ImageField({
     <div className="flex flex-col gap-1.5">
       <span className="text-sm">{label}</span>
       <div className="flex items-center gap-3">
-        <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-lg border border-border bg-background">
+        <div className="grid size-12 shrink-0 place-items-center overflow-hidden rounded-md bg-surface-raised">
           {value ? (
             // eslint-disable-next-line @next/next/no-img-element -- data URLs can't use next/image
             <img
@@ -57,7 +57,7 @@ export function ImageField({
             <ImageUp aria-hidden className="size-4 text-muted" />
           )}
         </div>
-        <label className="cursor-pointer rounded-lg border border-border px-3 py-1.5 text-sm hover:border-muted has-focus-visible:ring-2 has-focus-visible:ring-accent">
+        <label className="cursor-pointer text-sm underline decoration-border underline-offset-4 hover:decoration-foreground has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent">
           {value ? `Replace ${noun}` : `Upload ${noun}`}
           <input
             type="file"
@@ -75,7 +75,7 @@ export function ImageField({
             type="button"
             aria-label={`Remove ${noun}`}
             onClick={() => onChange(undefined)}
-            className="grid size-8 place-items-center rounded-lg text-muted hover:bg-surface-raised hover:text-red-400"
+            className="grid size-8 place-items-center rounded-md text-muted hover:text-red-400"
           >
             <Trash2 aria-hidden className="size-4" />
           </button>

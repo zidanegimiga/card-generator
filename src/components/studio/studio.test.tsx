@@ -101,11 +101,11 @@ describe("Studio", () => {
     const { user, rail } = setup();
 
     await user.click(within(rail).getByRole("button", { name: "Style" }));
-    await user.click(screen.getByRole("radio", { name: "Halo" }));
+    await user.click(screen.getByRole("radio", { name: "Poster" }));
 
     expect(
       screen.getByRole("article", { name: /ID card for Ada Lovelace/ }),
-    ).toHaveAttribute("data-style", "halo");
+    ).toHaveAttribute("data-style", "poster");
   });
 
   it("puts the member photo on the card", async () => {
